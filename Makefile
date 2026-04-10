@@ -26,7 +26,7 @@ install-dev: install
 
 # 运行测试
 test:
-	python -m pytest tests/ -v
+	python tests/test_basic.py
 
 # 清理临时文件
 clean:
@@ -51,7 +51,7 @@ run:
 
 # 运行TTS生成
 tts:
-	python edge_tts_with_srt.py
+	python -m book2audio tts input.txt
 
 # 合并音频和字幕
 merge:

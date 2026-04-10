@@ -1,10 +1,7 @@
-"""
-Book2Audio 工具模块
-"""
-import os
+"""Book2Audio 工具模块"""
 import re
 from pathlib import Path
-from typing import List, Tuple
+from typing import List
 
 
 def ensure_dir(path: str) -> Path:
@@ -21,7 +18,7 @@ def read_text_file(file_path: str, encodings: List[str] = None) -> str:
 
     file_path = Path(file_path)
     if not file_path.exists():
-        raise FileNotFoundError(f"文件不存在: {file_path}")
+        raise FileNotFoundError(f"文件不存在：{file_path}")
 
     for encoding in encodings:
         try:
@@ -30,13 +27,12 @@ def read_text_file(file_path: str, encodings: List[str] = None) -> str:
         except UnicodeDecodeError:
             continue
 
-    raise UnicodeDecodeError(f"无法读取文件: {file_path}")
+    raise UnicodeDecodeError(f"无法读取文件：{file_path}")
 
 
 def split_text_by_sentences(text: str, max_len: int = 500) -> List[str]:
     """按句子分割文本"""
-    # 按中文标点和换行符分割
-    sentences = re.split(r'(?<=[。！？；])|(?<=\.{3})|(?<=\n)', text)
+    sentences = re.split(r'(?<=[.!?。！？.;])|(?<=\.{3})|(?<=\n)', text)
 
     segments = []
     current = ""
@@ -52,7 +48,6 @@ def split_text_by_sentences(text: str, max_len: int = 500) -> List[str]:
             if current:
                 segments.append(current)
             if len(sent) > max_len:
-                # 超长句子强制切分
                 for i in range(0, len(sent), max_len):
                     segments.append(sent[i:i + max_len])
                 current = ""
@@ -92,10 +87,4 @@ def get_file_list(directory: str, pattern: str = "*") -> List[Path]:
     dir_path = Path(directory)
     if not dir_path.exists():
         return []
-
     return list(dir_path.glob(pattern))
-
-
-def clean_filename(filename: str) -> str:
-    """清理文件名，移除非法字符"""
-    return re.sub(r'[<>:"/\\|?*]', '', filename)

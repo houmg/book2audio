@@ -18,7 +18,8 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/yourusername/book2audio",
-    packages=find_packages(),
+    packages=find_packages(where="src"),
+    package_dir={"": "src"},
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: End Users/Desktop",
@@ -41,5 +42,4 @@ setup(
     },
     include_package_data=True,
     zip_safe=False,
-)</content>
-<parameter name="filePath">d:\book2audio\setup.py
+)
